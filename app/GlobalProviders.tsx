@@ -12,7 +12,7 @@ type GlobalProvidersProps = {
 const GlobalProviders: FC<GlobalProvidersProps> = ({ children }) => {
   if (!process.env.NEXT_PUBLIC_PRIVY_APP_ID) {
     throw new Error(
-      "Please define the NEXT_PUBLIC_PRIVY_APP_ID environment variable inside .env.local",
+      "Please define the NEXT_PUBLIC_PRIVY_APP_ID environment variable.",
     );
   }
 
