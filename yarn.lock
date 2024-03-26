@@ -1249,10 +1249,10 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@privy-io/react-auth@^1.59.6":
-  version "1.59.6"
-  resolved "https://registry.yarnpkg.com/@privy-io/react-auth/-/react-auth-1.59.6.tgz#61234aae94ef7ea5ffcf781bba2c719cd0f28368"
-  integrity sha512-vZtcxxhWg1jglR8RYYLFPmsh/fMDjCoQHodvBNjO2vE5i52GkZrbPf9KbHy3tH9LUSIqQXmn0raXmbBntBIc0w==
+"@privy-io/react-auth@^1.59.7":
+  version "1.59.7"
+  resolved "https://registry.yarnpkg.com/@privy-io/react-auth/-/react-auth-1.59.7.tgz#5df3258020a4d22478900b29df7b9dc7fda504a1"
+  integrity sha512-sBLXAV/Uswg0t8EwnVjcxTirT9eucysQx6FFZm3Kox+yVubhCWzrcJWLkcu19lWPE1ZHyo6Mb2/6HjHsWyWxSg==
   dependencies:
     "@coinbase/wallet-sdk" "^3.9.2"
     "@ethersproject/abstract-signer" "^5.7.0"

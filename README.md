@@ -18,6 +18,11 @@ A starter for web3 projects with Next.js. It includes:
 4. Create a file called `.env.development.local` in the project root, and add the following environment variables:
 
 ```bash
+NEXT_PUBLIC_APP_NAME=<Your app name>
+NEXT_PUBLIC_APP_DESCRIPTION=<Your app description>
 NEXT_PUBLIC_PRIVY_APP_ID=<Supplied by Privy>
 DATABASE_URL=<Your postgres database url from Neon>
 ```
+
+5. Change the project name in `package.json` to your project name.
+6. Run the development server: `yarn dev`.

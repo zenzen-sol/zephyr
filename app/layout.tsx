@@ -9,8 +9,8 @@ import GlobalProviders from "./GlobalProviders";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Zenzen Web3 Starter",
-  description: "A starter for web3 projects with Next.js.",
+  title: process.env.NEXT_PUBLIC_APP_NAME!,
+  description: process.env.NEXT_PUBLIC_APP_DESCRIPTION!,
 };
 
 export default function RootLayout({
