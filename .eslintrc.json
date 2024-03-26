@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "next",
+    "prettier",
+    "plugin:tailwindcss/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "prettier",
+    "tailwindcss",
+    "unused-imports",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "prettier/prettier": "warn",
+    "unused-imports/no-unused-imports": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": "warn",
+    "no-template-curly-in-string": "error",
+    "prefer-const": "warn"
+  },
+  "settings": {
+    "tailwindcss": {
+      "config": "./tailwind.config.js",
+      "callees": ["cx"]
+    },
+    "tailwindcss/classnames-order": [
+      true,
+      {
+        "callees": ["cx"],
+        "config": "./tailwind.config.js"
+      }
+    ]
+  }
+}

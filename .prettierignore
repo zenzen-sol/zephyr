@@ -1,0 +1,8 @@
+node_modules
+.next
+.github
+cypress
+out
+supabase
+types
+public
