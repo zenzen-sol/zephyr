@@ -4,7 +4,8 @@
     "next",
     "prettier",
     "plugin:tailwindcss/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:drizzle/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
@@ -27,7 +28,9 @@
     ],
     "@typescript-eslint/no-explicit-any": "warn",
     "no-template-curly-in-string": "error",
-    "prefer-const": "warn"
+    "prefer-const": "warn",
+    "drizzle/enforce-delete-with-where": "error",
+    "drizzle/enforce-update-with-where": "error"
   },
   "settings": {
     "tailwindcss": {
