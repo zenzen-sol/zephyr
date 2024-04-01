@@ -20,13 +20,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "@radix-ui/react-icons";
 // import { createAccount } from "app/server/accounts/createAccount";
 import { validateEVMAddress } from "@/lib/address";
+import { cn } from "@/lib/utils";
+import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const FormSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  description: z.string(),
   address: z.string().refine(validateEVMAddress(), {
     message: "Unable to detect chain.",
   }),
@@ -34,14 +34,13 @@ const FormSchema = z.object({
 
 const AddAccountForm: FC = () => {
   const router = useRouter();
+  const { ready } = usePrivy();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
     resolver: zodResolver(FormSchema),
     defaultValues: {
       address: "",
-      name: "",
-      description: "",
     },
   });
 
@@ -49,8 +48,8 @@ const AddAccountForm: FC = () => {
     try {
       console.debug({ values });
 
-      /** NOTE
-       * * This is where the API call to create an account goes.
+      /**
+       * * NOTE: This is where the API call to create an account goes.
        * * 1. Create an account.
        * * 2. Add an entry to `accountsToChains` for each chain.
        */
@@ -63,7 +62,12 @@ const AddAccountForm: FC = () => {
   };
 
   return (
-    <div className="mx-auto max-w-md py-24">
+    <div
+      className={cn(
+        "mx-auto max-w-md py-24",
+        !ready && "pointer-events-none opacity-30",
+      )}
+    >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -78,15 +82,14 @@ const AddAccountForm: FC = () => {
                     autoComplete="off"
                     autoCorrect="off"
                     autoFocus
+                    aria-disabled={!ready}
                     {...field}
                   />
                 </FormControl>
                 {!!form.getFieldState("address").error ? (
                   <FormMessage />
                 ) : (
-                  <FormDescription>
-                    Enter an EVM address that you want to track.
-                  </FormDescription>
+                  <FormDescription>Enter an EVM address.</FormDescription>
                 )}
               </FormItem>
             )}

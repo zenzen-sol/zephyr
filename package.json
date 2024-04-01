@@ -1,5 +1,6 @@
 {
-  "name": "zenzen-web3-starter",
+  "name": "zephyr",
+  "description": "An opinionated web3 starter from Zenzen.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,12 +11,11 @@
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "drizzle:generate": "drizzle-kit generate:pg",
-    "drizzle:push": "drizzle-kit push:pg",
+    "drizzle:push": "drizzle-kit push:pg --config ./drizzle.config.ts",
     "drizzle:studio": "drizzle-kit studio",
     "drizzle:seed": "node -r esbuild-register ./db/seed.ts"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.4.1",
     "@hookform/resolvers": "^3.3.4",
     "@neondatabase/serverless": "^0.9.0",
     "@privy-io/react-auth": "^1.59.7",

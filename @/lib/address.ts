@@ -1,12 +1,8 @@
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import * as AddressValidator from "multicoin-address-validator";
 import { normalize } from "path";
-import {
-  checkAddressChecksum,
-  isAddress,
-  sha3,
-  toChecksumAddress,
-} from "web3-utils";
+import { sha3, toChecksumAddress } from "web3-utils";
+import { checkAddressCheckSum, isAddress } from "web3-validator";
 import { getMainnetClient, isPossiblyEns } from "./ens";
 
 enum EChainEcosystem {
@@ -29,23 +25,8 @@ export const validateEVMAddress = () =>
       addressToBeValidated = _ensAddress || value;
     }
 
-    const _detected = await getNetworkFamilyForAddress(
-      addressToBeValidated,
-      !!_ensAddress,
-    );
-
-    console.debug("validateEVMAddress", { value, _detected, _ensAddress });
-
     let _addressIsValid = false;
-    if (!!_detected && _detected?.name === EChainEcosystem.EVM) {
-      _addressIsValid = isValidAddress(
-        addressToBeValidated,
-        EChainEcosystem.EVM,
-      );
-    } else {
-      _addressIsValid = false;
-    }
-
+    _addressIsValid = isValidAddress(addressToBeValidated);
     console.debug("validateEVMAddress", _addressIsValid);
 
     return _addressIsValid;
@@ -66,22 +47,15 @@ export const validateEVMChecksum = () => {
       addressToBeValidated = _ensAddress || value;
     }
 
-    const _detected = await getNetworkFamilyForAddress(
-      addressToBeValidated,
-      !!_ensAddress,
-    );
-
     let _checksumIsValid = false;
-    if (!!_detected && _detected?.name === EChainEcosystem.EVM) {
-      _checksumIsValid = isValidAddressChecksum(addressToBeValidated);
-    }
+    _checksumIsValid = isValidAddressChecksum(addressToBeValidated);
 
     return _checksumIsValid;
   }, 300);
 };
 
 /**
- * Validate address if possible, otherwise return true.
+ * * Validate address if possible, otherwise return true.
  */
 export const isValidAddress = (address: string): boolean => {
   return AddressValidator.validate(address, "Ethereum");
@@ -90,14 +64,14 @@ export const isValidAddress = (address: string): boolean => {
 export const isValidAddressChecksum = (address: string): boolean => {
   const addressOK = isAddress(address);
   if (addressOK) {
-    const checksumOK = checkAddressChecksum(address);
+    const checksumOK = checkAddressCheckSum(address);
     return addressOK && checksumOK;
   }
   return false;
 };
 
 export const toValidAddressChecksum = (address: string): string | undefined => {
-  const checksumOK = checkAddressChecksum(address);
+  const checksumOK = checkAddressCheckSum(address);
   if (!checksumOK) {
     const checksum = toChecksumAddress(address);
     return checksum;

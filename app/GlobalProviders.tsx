@@ -30,6 +30,7 @@ const GlobalProviders: FC<GlobalProvidersProps> = ({ children }) => {
         embeddedWallets: {
           createOnLogin: "users-without-wallets",
         },
+        loginMethods: ["email", "wallet", "google", "apple", "farcaster"],
       }}
     >
       <ThemeProvider

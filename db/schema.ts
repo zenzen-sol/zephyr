@@ -20,6 +20,7 @@ export const accounts = pgTable("accounts", {
   address: text("address").notNull().unique(),
   name: text("name").notNull(),
   hint: text("hint"),
+  userId: integer("user_id").notNull(),
 });
 
 export const ecosystems = pgTable("ecosystems", {
