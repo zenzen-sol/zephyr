@@ -32,7 +32,7 @@
     {
       "tag": "//",
       "color": "#8b5cf6",
-      "strikethrough": true,
+      "strikethrough": false,
       "backgroundColor": "transparent"
     },
     {
@@ -43,7 +43,7 @@
     },
     {
       "tag": "*",
-      "color": "#f97316",
+      "color": "#EC4899",
       "strikethrough": false,
       "backgroundColor": "transparent"
     }
