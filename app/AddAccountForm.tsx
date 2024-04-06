@@ -21,7 +21,6 @@ import { PlusIcon } from "@radix-ui/react-icons";
 // import { createAccount } from "app/server/accounts/createAccount";
 import {
   toValidAddressChecksum,
-  validateAddressChecksum,
   validateEVMAddress,
   validateEVMChecksum,
 } from "@/lib/address";
@@ -32,26 +31,27 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const FormSchema = z.object({
-  address: z.string().superRefine(
-    AwesomeDebouncePromise(async (val, ctx) => {
-      const _isValidAddress = await validateEVMAddress(val);
-      console.debug({ _isValidAddress });
-      if (!_isValidAddress) {
-        ctx.addIssue({
-          message: "Unable to detect chain.",
-          code: z.ZodIssueCode.custom,
-        });
-      }
-      const _isValidChecksum: boolean = await validateEVMChecksum(val);
-      console.debug({ _isValidChecksum });
-      if (!_isValidChecksum) {
-        ctx.addIssue({
-          message: "Invalid checksum.",
-          code: z.ZodIssueCode.custom,
-        });
-      }
-    }, 500),
-  ),
+  address: z
+    .string({ required_error: "Address is required" })
+    .max(42, { message: "Address is too long." })
+    .superRefine(
+      AwesomeDebouncePromise(async (val, ctx) => {
+        const _isValidAddress = await validateEVMAddress(val);
+        if (!_isValidAddress) {
+          ctx.addIssue({
+            message: "Unknown address format.",
+            code: z.ZodIssueCode.custom,
+          });
+        }
+        const _isValidChecksum: boolean = await validateEVMChecksum(val);
+        if (!_isValidChecksum) {
+          ctx.addIssue({
+            message: "Invalid checksum.",
+            code: z.ZodIssueCode.custom,
+          });
+        }
+      }, 500),
+    ),
 });
 
 const AddAccountForm: FC = () => {
@@ -81,7 +81,6 @@ const AddAccountForm: FC = () => {
       router.refresh();
     } catch (error: unknown) {
       console.error({ error });
-      // * handleApiError(error);
     }
   };
 
@@ -90,8 +89,7 @@ const AddAccountForm: FC = () => {
       const checksum = toValidAddressChecksum(address);
       if (checksum) {
         form.setValue("address", checksum, { shouldValidate: true });
-        const _validChecksum = validateAddressChecksum(address);
-        setValidChecksum(_validChecksum);
+        form.trigger("address");
       }
     } catch (e: unknown) {
       console.error({ error: e });
@@ -114,15 +112,26 @@ const AddAccountForm: FC = () => {
               <FormItem>
                 <FormLabel>Add an address</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="0x1234..."
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoFocus
-                    aria-disabled={!ready}
-                    disabled={!ready}
-                    {...field}
-                  />
+                  <div className="flex w-full flex-row space-x-4">
+                    <Input
+                      placeholder="0x1234..."
+                      autoComplete="off"
+                      autoCorrect="off"
+                      autoFocus
+                      aria-disabled={!ready}
+                      disabled={!ready}
+                      {...field}
+                    />
+                    {form.formState.errors.address?.message ===
+                      "Invalid checksum." && (
+                      <Button
+                        type="button"
+                        onClick={() => fixChecksum(form.getValues("address"))}
+                      >
+                        Fix checksum
+                      </Button>
+                    )}
+                  </div>
                 </FormControl>
                 {!!form.getFieldState("address").error ? (
                   <FormMessage />
@@ -133,7 +142,16 @@ const AddAccountForm: FC = () => {
                         Valid EVM address
                       </span>
                     ) : (
-                      <span>Enter an EVM address.</span>
+                      <>
+                        {form.formState.isValid &&
+                        !form.formState.isValidating ? (
+                          <span className="text-success-500">
+                            Valid address.
+                          </span>
+                        ) : (
+                          <span>Enter an EVM address.</span>
+                        )}
+                      </>
                     )}
                   </FormDescription>
                 )}
@@ -145,7 +163,7 @@ const AddAccountForm: FC = () => {
             className="w-full"
             type="submit"
             disabled={
-              !!form.formState.errors ||
+              !form.formState.isValid ||
               form.formState.isSubmitting ||
               form.formState.isValidating
             }

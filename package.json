@@ -32,7 +32,6 @@
     "eslint-plugin-drizzle": "^0.2.3",
     "geist": "^1.2.2",
     "i18next": "^23.10.1",
-    "multicoin-address-validator": "^0.5.16",
     "next": "14.1.4",
     "next-themes": "^0.3.0",
     "react": "^18",
@@ -40,15 +39,12 @@
     "react-hook-form": "^7.51.2",
     "react-is": "^18.2.0",
     "react-native": "^0.0.0-0",
-    "viem": "^2.9.6",
-    "wagmi": "^2.5.16",
     "web3-utils": "^4.2.2",
     "web3-validator": "^2.0.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.24.3",
-    "@types/multicoin-address-validator": "^0.5.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
