@@ -16,11 +16,11 @@ export const retreiveENSFromAddress = async ({
 }): Promise<string | null> => {
   if (!isPossiblyEns(_address)) return null;
   const viemClient = getMainnetClient();
-  let isEVM = await viemClient.getEnsName({ address: _address });
-  if (!isEVM && _address.length === 40) {
-    isEVM = await viemClient.getEnsName({ address: _address });
+  let _ensName = null;
+  if (_address.length === 40) {
+    _ensName = await viemClient.getEnsName({ address: _address });
   }
-  return isEVM;
+  return _ensName;
 };
 
 export const getMainnetClient = () => {

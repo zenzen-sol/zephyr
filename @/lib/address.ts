@@ -1,57 +1,30 @@
-import AwesomeDebouncePromise from "awesome-debounce-promise";
 import * as AddressValidator from "multicoin-address-validator";
-import { normalize } from "path";
 import { sha3, toChecksumAddress } from "web3-utils";
 import { checkAddressCheckSum, isAddress } from "web3-validator";
-import { getMainnetClient, isPossiblyEns } from "./ens";
 
 enum EChainEcosystem {
   EVM = "evm",
 }
 
-export const validateEVMAddress = () =>
-  AwesomeDebouncePromise(async (value: string): Promise<boolean> => {
-    console.debug("validateEVMAddress", { value });
-    if (!value) return false;
-    let addressToBeValidated = value;
-    const isPossiblyEnsAddress = isPossiblyEns(value);
-    if (!value) {
-      return false;
-    }
+export const validateEVMAddress = async (value: string) => {
+  console.debug("validateEVMAddress", { value });
+  if (!value) return false;
 
-    let _ensAddress: string | undefined;
-    if (isPossiblyEnsAddress) {
-      _ensAddress = await getAddressFromEns(value);
-      addressToBeValidated = _ensAddress || value;
-    }
+  let _addressIsValid = false;
+  _addressIsValid = isValidAddress(value);
+  console.debug("validateEVMAddress", _addressIsValid);
 
-    let _addressIsValid = false;
-    _addressIsValid = isValidAddress(addressToBeValidated);
-    console.debug("validateEVMAddress", _addressIsValid);
+  return _addressIsValid;
+};
 
-    return _addressIsValid;
-  }, 300);
+export const validateEVMChecksum = async (value: string) => {
+  console.debug("validateEVMChecksum", { value });
+  if (!value) return false;
 
-export const validateEVMChecksum = () => {
-  AwesomeDebouncePromise(async (value: string): Promise<boolean> => {
-    if (!value) return false;
-    let addressToBeValidated = value;
-    const isPossiblyEnsAddress = isPossiblyEns(value);
-    if (!value) {
-      return false;
-    }
+  let _checksumIsValid = false;
+  _checksumIsValid = isValidAddressChecksum(value);
 
-    let _ensAddress: string | undefined;
-    if (isPossiblyEnsAddress) {
-      _ensAddress = await getAddressFromEns(value);
-      addressToBeValidated = _ensAddress || value;
-    }
-
-    let _checksumIsValid = false;
-    _checksumIsValid = isValidAddressChecksum(addressToBeValidated);
-
-    return _checksumIsValid;
-  }, 300);
+  return _checksumIsValid;
 };
 
 /**
@@ -111,27 +84,4 @@ export const validateAddressChecksum = (_address: string): boolean => {
     console.error({ e, where: "validateAddressChecksum" });
   }
   return false;
-};
-
-export const isEvmAddress = (_address: string): boolean => {
-  return isAddress(_address);
-};
-
-export const getAddressFromEns = async (
-  _possibleName: string,
-): Promise<string | undefined> => {
-  try {
-    const viemClient = getMainnetClient();
-    const possibleAddress = await viemClient.getEnsAddress({
-      name: normalize(_possibleName),
-    });
-    if (!!possibleAddress) {
-      return possibleAddress;
-    }
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error({ e, where: "getAddressFromEns" });
-  }
-
-  return undefined;
 };

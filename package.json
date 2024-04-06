@@ -1,6 +1,6 @@
 {
   "name": "zephyr",
-  "description": "An opinionated web3 starter from Zenzen.",
+  "description": "An opinionated web3 starter from Zenzen Labs. https://zenzen.io",
   "version": "0.1.0",
   "private": true,
   "scripts": {

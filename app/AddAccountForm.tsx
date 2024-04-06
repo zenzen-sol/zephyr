@@ -1,7 +1,5 @@
 "use client";
 
-import { FC } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,12 +12,19 @@ import {
 } from "@/components/ui/form";
 import { IconLoading } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
+import AwesomeDebouncePromise from "awesome-debounce-promise";
+import { FC, useState } from "react";
 // import { handleApiError } from "@components/toasts/ErrorToast";
 // import { handleSuccess } from "@components/toasts/SuccessToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "@radix-ui/react-icons";
 // import { createAccount } from "app/server/accounts/createAccount";
-import { validateEVMAddress } from "@/lib/address";
+import {
+  toValidAddressChecksum,
+  validateAddressChecksum,
+  validateEVMAddress,
+  validateEVMChecksum,
+} from "@/lib/address";
 import { cn } from "@/lib/utils";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
@@ -27,14 +32,33 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const FormSchema = z.object({
-  address: z.string().refine(validateEVMAddress(), {
-    message: "Unable to detect chain.",
-  }),
+  address: z.string().superRefine(
+    AwesomeDebouncePromise(async (val, ctx) => {
+      const _isValidAddress = await validateEVMAddress(val);
+      console.debug({ _isValidAddress });
+      if (!_isValidAddress) {
+        ctx.addIssue({
+          message: "Unable to detect chain.",
+          code: z.ZodIssueCode.custom,
+        });
+      }
+      const _isValidChecksum: boolean = await validateEVMChecksum(val);
+      console.debug({ _isValidChecksum });
+      if (!_isValidChecksum) {
+        ctx.addIssue({
+          message: "Invalid checksum.",
+          code: z.ZodIssueCode.custom,
+        });
+      }
+    }, 500),
+  ),
 });
 
 const AddAccountForm: FC = () => {
   const router = useRouter();
   const { ready } = usePrivy();
+
+  const [validChecksum, setValidChecksum] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
@@ -61,6 +85,19 @@ const AddAccountForm: FC = () => {
     }
   };
 
+  const fixChecksum = (address: string) => {
+    try {
+      const checksum = toValidAddressChecksum(address);
+      if (checksum) {
+        form.setValue("address", checksum, { shouldValidate: true });
+        const _validChecksum = validateAddressChecksum(address);
+        setValidChecksum(_validChecksum);
+      }
+    } catch (e: unknown) {
+      console.error({ error: e });
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -83,13 +120,22 @@ const AddAccountForm: FC = () => {
                     autoCorrect="off"
                     autoFocus
                     aria-disabled={!ready}
+                    disabled={!ready}
                     {...field}
                   />
                 </FormControl>
                 {!!form.getFieldState("address").error ? (
                   <FormMessage />
                 ) : (
-                  <FormDescription>Enter an EVM address.</FormDescription>
+                  <FormDescription>
+                    {!form.formState.errors ? (
+                      <span className="text-success-500">
+                        Valid EVM address
+                      </span>
+                    ) : (
+                      <span>Enter an EVM address.</span>
+                    )}
+                  </FormDescription>
                 )}
               </FormItem>
             )}
@@ -99,7 +145,7 @@ const AddAccountForm: FC = () => {
             className="w-full"
             type="submit"
             disabled={
-              !form.formState.isValid ||
+              !!form.formState.errors ||
               form.formState.isSubmitting ||
               form.formState.isValidating
             }
