@@ -1,7 +1,7 @@
 import { toChecksumAddress } from "web3-utils";
 import { checkAddressCheckSum, isAddress } from "web3-validator";
 
-enum EChainEcosystem {
+export enum EChainEcosystem {
   EVM = "evm",
 }
 

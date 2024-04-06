@@ -13,7 +13,7 @@ import {
 import { IconLoading } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
-import { FC, useState } from "react";
+import { FC } from "react";
 // import { handleApiError } from "@components/toasts/ErrorToast";
 // import { handleSuccess } from "@components/toasts/SuccessToast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,6 +29,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { saveOrUpdateAccount } from "./actions/saveOrUpdateAccount";
 
 const FormSchema = z.object({
   address: z
@@ -52,31 +53,38 @@ const FormSchema = z.object({
         }
       }, 500),
     ),
+  name: z.string({ required_error: "Name is required" }).min(1).max(25),
 });
 
 const AddAccountForm: FC = () => {
   const router = useRouter();
-  const { ready } = usePrivy();
-
-  const [validChecksum, setValidChecksum] = useState<boolean>(false);
+  const { ready, user } = usePrivy();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
     resolver: zodResolver(FormSchema),
     defaultValues: {
       address: "",
+      name: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
-      console.debug({ values });
+      if (!user?.id) {
+        throw new Error("User not found.");
+      }
 
-      /**
-       * * NOTE: This is where the API call to create an account goes.
-       * * 1. Create an account.
-       * * 2. Add an entry to `accountsToChains` for each chain.
-       */
+      const valuesWithUserId: {
+        address: string;
+        name: string;
+        userId: string;
+      } = {
+        ...values,
+        userId: user.id,
+      };
+
+      saveOrUpdateAccount(valuesWithUserId);
 
       router.refresh();
     } catch (error: unknown) {
@@ -108,7 +116,7 @@ const AddAccountForm: FC = () => {
           <FormField
             control={form.control}
             name="address"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>Add an address</FormLabel>
                 <FormControl>
@@ -133,25 +141,47 @@ const AddAccountForm: FC = () => {
                     )}
                   </div>
                 </FormControl>
-                {!!form.getFieldState("address").error ? (
+                {!!fieldState.error ? (
                   <FormMessage />
                 ) : (
                   <FormDescription>
-                    {!form.formState.errors ? (
+                    {fieldState.isDirty && !fieldState.invalid ? (
                       <span className="text-success-500">
-                        Valid EVM address
+                        Valid EVM address.
                       </span>
                     ) : (
-                      <>
-                        {form.formState.isValid &&
-                        !form.formState.isValidating ? (
-                          <span className="text-success-500">
-                            Valid address.
-                          </span>
-                        ) : (
-                          <span>Enter an EVM address.</span>
-                        )}
-                      </>
+                      <span>Enter an EVM address.</span>
+                    )}
+                  </FormDescription>
+                )}
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>Name this address</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="EVM Hot Wallet"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    aria-disabled={!ready}
+                    disabled={!ready}
+                    {...field}
+                  />
+                </FormControl>
+                {!!fieldState.error ? (
+                  <FormMessage />
+                ) : (
+                  <FormDescription>
+                    {fieldState.isDirty && !fieldState.invalid ? (
+                      <span className="text-success-500">Valid name.</span>
+                    ) : (
+                      <span>Please name this address.</span>
                     )}
                   </FormDescription>
                 )}
@@ -162,11 +192,7 @@ const AddAccountForm: FC = () => {
           <Button
             className="w-full"
             type="submit"
-            disabled={
-              !form.formState.isValid ||
-              form.formState.isSubmitting ||
-              form.formState.isValidating
-            }
+            disabled={!form.formState.isValid || form.formState.isSubmitting}
           >
             <span className="flex w-full items-center justify-between space-x-2">
               <span>Save</span>
