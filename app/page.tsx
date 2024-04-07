@@ -11,7 +11,7 @@ export default async function Home() {
   const { userId } = auth();
 
   if (!userId) {
-    throw new Error("User not found.");
+    throw new Error("You must be signed in to view this page.");
   }
 
   const _accounts: Account[] = await db
@@ -20,10 +20,12 @@ export default async function Home() {
     .where(eq(accounts.userId, userId));
 
   return (
-    <main className="mx-auto max-w-5xl">
-      <Header />
-      <AddAccountForm />
-      <AccountsList items={_accounts} />
-    </main>
+    <>
+      <main className="relative mx-auto max-w-5xl">
+        <Header />
+        <AddAccountForm />
+        <AccountsList items={_accounts} />
+      </main>
+    </>
   );
 }

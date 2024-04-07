@@ -1,5 +1,5 @@
-import { UserButton } from "@clerk/nextjs";
 import { FC } from "react";
+import AuthButton from "./AuthButton";
 import { ThemeToggle } from "./ThemeToggle";
 
 const Header: FC = () => {
@@ -8,8 +8,7 @@ const Header: FC = () => {
       <h1 className="text-lg">{process.env.NEXT_PUBLIC_APP_NAME!}</h1>
       <div className="flex items-center space-x-4">
         <div>
-          <UserButton />
-          {/* <AuthButton /> */}
+          <AuthButton />
         </div>
         <ThemeToggle />
       </div>

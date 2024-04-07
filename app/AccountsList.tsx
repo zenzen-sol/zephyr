@@ -1,3 +1,7 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -14,8 +18,15 @@ type AccountsListProps = {
 };
 
 const AccountsList: FC<AccountsListProps> = ({ items }) => {
+  const { isLoaded } = useAuth();
+
   return (
-    <div>
+    <div
+      className={cn(
+        "mx-auto max-w-md py-24",
+        !isLoaded && "pointer-events-none opacity-30",
+      )}
+    >
       <h1>Accounts</h1>
       <ul>
         {items.map((item) => (
