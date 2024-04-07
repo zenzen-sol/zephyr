@@ -5,7 +5,7 @@
 Zephyr is an opinionated starter kit for web3 projects. It includes:
 
 - A basic NextJS/Typescript app, with developer-friendly settings.
-- Basic authentication with [﻿Privy.io](https://www.privy.io/) .
+- Basic authentication with [Clerk](https://www.clerk.com/) .
 - [﻿Tailwind CSS](https://tailwindcss.com/) for utility class styling.
 - [﻿Shadcn UI](https://ui.shadcn.com/) for UI components.
 - Postgres database on [﻿Neon](https://neon.tech/) .
@@ -22,7 +22,7 @@ Zephyr is an opinionated starter kit for web3 projects. It includes:
 ```bash
 NEXT_PUBLIC_APP_NAME=<Your app name>
 NEXT_PUBLIC_APP_DESCRIPTION=<Your app description>
-NEXT_PUBLIC_PRIVY_APP_ID=<Supplied by Privy>
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<Supplied by Clerk>
 PRIVY_APP_SECRET=<Supplied by Privy>
 DATABASE_URL=<Your postgres database url from Neon>
 ```

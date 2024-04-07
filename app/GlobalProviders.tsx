@@ -1,38 +1,16 @@
 "use client";
 
+import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "next-themes";
 import { FC, ReactNode } from "react";
-
-import { PrivyProvider } from "@privy-io/react-auth";
 
 type GlobalProvidersProps = {
   children: ReactNode;
 };
 
 const GlobalProviders: FC<GlobalProvidersProps> = ({ children }) => {
-  if (!process.env.NEXT_PUBLIC_PRIVY_APP_ID) {
-    throw new Error(
-      "Please define the NEXT_PUBLIC_PRIVY_APP_ID environment variable.",
-    );
-  }
-
   return (
-    <PrivyProvider
-      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
-      config={{
-        // Customize Privy's appearance in your app
-        appearance: {
-          theme: "light",
-          accentColor: "#f97316",
-          logo: "/logo.png",
-        },
-        // Create embedded wallets for users who don't have a wallet
-        embeddedWallets: {
-          createOnLogin: "users-without-wallets",
-        },
-        loginMethods: ["email", "wallet", "google", "apple", "farcaster"],
-      }}
-    >
+    <ClerkProvider>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -41,7 +19,7 @@ const GlobalProviders: FC<GlobalProvidersProps> = ({ children }) => {
       >
         {children}
       </ThemeProvider>
-    </PrivyProvider>
+    </ClerkProvider>
   );
 };
 

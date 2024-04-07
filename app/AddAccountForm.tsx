@@ -25,7 +25,7 @@ import {
   validateEVMChecksum,
 } from "@/lib/address";
 import { cn } from "@/lib/utils";
-import { usePrivy } from "@privy-io/react-auth";
+import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -59,7 +59,7 @@ const FormSchema = z.object({
 
 const AddAccountForm: FC = () => {
   const router = useRouter();
-  const { ready, user } = usePrivy();
+  const { isLoaded, userId } = useAuth();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
@@ -72,7 +72,7 @@ const AddAccountForm: FC = () => {
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
-      if (!user?.id) {
+      if (!userId) {
         throw new Error("User not found.");
       }
 
@@ -82,7 +82,7 @@ const AddAccountForm: FC = () => {
         userId: string;
       } = {
         ...values,
-        userId: user.id,
+        userId: userId,
       };
 
       saveOrUpdateAccount(valuesWithUserId);
@@ -111,7 +111,7 @@ const AddAccountForm: FC = () => {
     <div
       className={cn(
         "mx-auto max-w-md py-24",
-        !ready && "pointer-events-none opacity-30",
+        !isLoaded && "pointer-events-none opacity-30",
       )}
     >
       <Form {...form}>
@@ -129,8 +129,8 @@ const AddAccountForm: FC = () => {
                       autoComplete="off"
                       autoCorrect="off"
                       autoFocus
-                      aria-disabled={!ready}
-                      disabled={!ready}
+                      aria-disabled={!isLoaded}
+                      disabled={!isLoaded}
                       {...field}
                     />
                     {form.formState.errors.address?.message ===
@@ -172,8 +172,8 @@ const AddAccountForm: FC = () => {
                     placeholder="EVM Hot Wallet"
                     autoComplete="off"
                     autoCorrect="off"
-                    aria-disabled={!ready}
-                    disabled={!ready}
+                    aria-disabled={!isLoaded}
+                    disabled={!isLoaded}
                     {...field}
                   />
                 </FormControl>
