@@ -23,6 +23,7 @@ Zephyr is an opinionated starter kit for web3 projects. It includes:
 NEXT_PUBLIC_APP_NAME=<Your app name>
 NEXT_PUBLIC_APP_DESCRIPTION=<Your app description>
 NEXT_PUBLIC_PRIVY_APP_ID=<Supplied by Privy>
+PRIVY_APP_SECRET=<Supplied by Privy>
 DATABASE_URL=<Your postgres database url from Neon>
 ```
 

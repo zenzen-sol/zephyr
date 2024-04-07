@@ -5,7 +5,15 @@ import { useLogin, useLogout, usePrivy } from "@privy-io/react-auth";
 import { useEffect } from "react";
 
 const AuthButton = () => {
-  const { ready, authenticated, linkEmail, user } = usePrivy();
+  const { ready, authenticated, linkEmail, user, getAccessToken } = usePrivy();
+
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      const accessToken = await getAccessToken();
+      console.debug({ accessToken });
+    };
+    fetchAccessToken();
+  }, []);
 
   const { login } = useLogin({
     onComplete: (user, isNewUser, wasAlreadyAuthenticated) => {

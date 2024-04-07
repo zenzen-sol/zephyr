@@ -9,54 +9,49 @@ export const saveOrUpdateAccount = async (values: {
   name: string;
   userId: string;
 }) => {
-  try {
-    const db = await database();
-    const _chains = await db
-      .select()
-      .from(chains)
-      .where(eq(chains.shortName, "eth"))
-      .limit(1);
+  const db = await database();
+  const _chains = await db
+    .select()
+    .from(chains)
+    .where(eq(chains.shortName, "eth"))
+    .limit(1);
 
-    const chain = _chains?.[0];
+  const chain = _chains?.[0];
 
-    const _accounts = await db
-      .insert(accounts)
-      .values({
-        name: values.name,
+  const _accounts = await db
+    .insert(accounts)
+    .values({
+      name: values.name,
+      address: values.address,
+      userId: values.userId,
+    })
+    .onConflictDoUpdate({
+      target: accounts.address,
+      set: {
         address: values.address,
+        name: values.name,
         userId: values.userId,
-      })
-      .onConflictDoUpdate({
-        target: accounts.address,
-        set: {
-          address: values.address,
-          name: values.name,
-          userId: values.userId,
-        },
-      })
-      .returning();
+      },
+    })
+    .returning();
 
-    const account = _accounts?.[0];
+  const account = _accounts?.[0];
 
-    if (!account?.id) {
-      throw new Error("Account not found.");
-    }
-
-    if (!chain?.id) {
-      throw new Error("Chain not found.");
-    }
-
-    await db
-      .insert(accountsToChains)
-      .values({
-        accountId: account.id,
-        chainId: chain.id,
-      })
-      .onConflictDoNothing();
-
-    return true;
-  } catch (error: unknown) {
-    console.error({ error });
-    return false;
+  if (!account?.id) {
+    throw new Error("Account not found.");
   }
+
+  if (!chain?.id) {
+    throw new Error("Chain not found.");
+  }
+
+  await db
+    .insert(accountsToChains)
+    .values({
+      accountId: account.id,
+      chainId: chain.id,
+    })
+    .onConflictDoNothing();
+
+  return account;
 };

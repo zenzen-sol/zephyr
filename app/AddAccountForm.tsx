@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { saveOrUpdateAccount } from "./actions/saveOrUpdateAccount";
 
@@ -85,10 +86,12 @@ const AddAccountForm: FC = () => {
       };
 
       saveOrUpdateAccount(valuesWithUserId);
-
+      toast.success("Address has been created");
+      form.reset();
       router.refresh();
     } catch (error: unknown) {
       console.error({ error });
+      toast.error("Problem saving address. Please try again.");
     }
   };
 
@@ -131,7 +134,7 @@ const AddAccountForm: FC = () => {
                       {...field}
                     />
                     {form.formState.errors.address?.message ===
-                      "Invalid checksum." && (
+                      "Invalid checksum" && (
                       <Button
                         type="button"
                         onClick={() => fixChecksum(form.getValues("address"))}
@@ -147,10 +150,10 @@ const AddAccountForm: FC = () => {
                   <FormDescription>
                     {fieldState.isDirty && !fieldState.invalid ? (
                       <span className="text-success-500">
-                        Valid EVM address.
+                        Valid EVM address
                       </span>
                     ) : (
-                      <span>Enter an EVM address.</span>
+                      <span>Enter an EVM address</span>
                     )}
                   </FormDescription>
                 )}
@@ -179,9 +182,9 @@ const AddAccountForm: FC = () => {
                 ) : (
                   <FormDescription>
                     {fieldState.isDirty && !fieldState.invalid ? (
-                      <span className="text-success-500">Valid name.</span>
+                      <span className="text-success-500">Valid name</span>
                     ) : (
-                      <span>Please name this address.</span>
+                      <span>Please name this address</span>
                     )}
                   </FormDescription>
                 )}
