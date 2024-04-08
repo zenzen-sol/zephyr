@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 
 import { cn } from "@/lib/utils";
 
+import { Toaster } from "sonner";
+
 import { ReactNode } from "react";
 import GlobalProviders from "./GlobalProviders";
 import "./globals.css";
@@ -21,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(GeistSans.variable, GeistMono.variable, "font-sans")}>
+        <Toaster />
         <GlobalProviders>{children}</GlobalProviders>
       </body>
     </html>

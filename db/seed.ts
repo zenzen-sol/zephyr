@@ -129,7 +129,7 @@ const main = async () => {
 
   // Create the new chain's explorer links.
   await Promise.all(seedJobs);
-  console.debug("Seed done");
+  console.debug("Seed done. Wrapping up...");
 };
 
 try {

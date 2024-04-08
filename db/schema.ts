@@ -19,6 +19,7 @@ export const accounts = pgTable("accounts", {
   id: serial("id").primaryKey(),
   address: text("address").notNull().unique(),
   name: text("name").notNull(),
+  userId: text("user_id").notNull(),
   hint: text("hint"),
 });
 
