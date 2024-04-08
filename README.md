@@ -2,8 +2,7 @@
 
 ![zephyr-preview-vertical-dark.png](/.eraser/oRI3IcQibkaiElPYiQDX___knmznxcVUle1acNTsBPNYFQoztI3___0TyjJ56PsmtrAZEZnwo_M.png "zephyr-preview-vertical-dark.png")
 
-# Zephyr
-An opinionated starter kit for web3 frontends. 
+Zephyr is an opinionated starter kit for web3 frontends. 
 
 ### What it does
 Zephyr is a useful starting point for web3 developers who are building frontend web apps that interact with on-chain services. 
@@ -62,6 +61,10 @@ We chose to build Zephyr with yarn, but you can substitute whatever package mana
     - If you prefer [﻿Vercel CLI](https://vercel.com/docs/cli)  as your dev server, use `vercel dev`  or `vc dev`  instead of `yarn dev`  .
 - Go to [﻿http://localhost:3000](http://localhost:3000/)  to see Zephyr in action. You should be prompted to sign up.
 
+
+---
+
+Made with 🖤 in Kyoto, Japan by [﻿Sol Irvine](https://www.zenzen.io/sol) 
 
 
 <!-- eraser-additional-content -->
