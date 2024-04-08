@@ -1,0 +1,49 @@
+entity-relationship-diagram
+
+chains [icon: chain] {
+    id serial pk
+    name string uniq !null
+    short_name string uniq
+    info_url string
+    interface string !null
+    chain_spec integer !null
+    network_spec integer !null
+    parent_chain_spec integer
+    slip_spec integer
+    ens_registry string
+    native_coin_id > tokens.id
+    ecosystem_id > ecosystems.id
+}
+
+tokens [icon: money] {
+    id serial pk
+    name string !null
+    symbol string uniq !null
+    decimals number
+}
+
+explorers [icon: command] {
+    id serial pk
+    name string !null
+    url string uniq !null
+    spec string
+    chain_id > chains.id
+}
+
+ecosystems [icon: globe] {
+  id serial pk
+  name string
+  ticker string uniq
+}
+
+accounts [icon: user] {
+    id serial pk
+    address string uniq !null
+    name string !null
+    hint string
+}
+
+accountsToChains {
+  chain_id - chains.id
+  account_id - accounts.id
+}
