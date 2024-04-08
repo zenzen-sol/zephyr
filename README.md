@@ -2,7 +2,6 @@
 
 #### Zephyr is an opinionated starter kit for web3 frontends.
 
-
 Made with 🖤 in Kyoto, Japan by [﻿Sol Irvine](https://www.zenzen.io/sol)
 
 ---
@@ -56,25 +55,31 @@ Zephyr includes an optional data schema that illustrates how to configure and se
 
 This data is used to drive Zephyr's default UI, which provides users with a way to add their on-chain addresses. You may find this useful when building your own web3 app. If not, you are welcome to skip the following steps.
 
-- For your reference, the data schema that we'll be installing is represented below.
+For your reference, the data schema that we'll be installing is represented below.
 
 ![zephyr-erd](https://github.com/zenzen-sol/zephyr/assets/57605723/a7dd703b-4d87-4c60-ac5e-07be95cd75a8)
 
-- You can review the code that establishes this schema in `db/schema.ts` . You are welcome to modify it to fit your app's needs.
-- The seed data we'll use to populate the database is in `db/seed-fixtures.ts` . Again, feel free to enhance or modify. If you're looking for additional chains, try the [﻿ethereum-lists/chains](https://github.com/ethereum-lists/chains) project.
+You can review the code that establishes this schema in `db/schema.ts` . You are welcome to modify it to fit your app's needs.
+
+The seed data we'll use to populate the database is in `db/seed-fixtures.ts` . Again, feel free to enhance or modify. If you're looking for additional chains, try the [﻿ethereum-lists/chains](https://github.com/ethereum-lists/chains) project.
 
 ### Pushing seed data into your database
 
-- To test push your schema into Neon without committing a migration, use `yarn drizzle:push` .
-  - When you're ready to commit your first migration, use `yarn drizzle:generate` .
-  - Note that after you commit your first migration, you'll need to commit a new migration every time you change your schema going forward.
-- To see your data in Drizzle Studio, use `yarn drizzle:studio` .
-  - View your database at [﻿local.drizzle.studio](https://local.drizzle.studio/) .
+To test push your schema into Neon without committing a migration, use `yarn drizzle:push` .
+
+- When you're ready to commit your first migration, use `yarn drizzle:generate` .
+- Note that after you commit your first migration, you'll need to commit a new migration every time you change your schema going forward.
+
+To see your data in Drizzle Studio, use `yarn drizzle:studio` .
+
+- View your database at [﻿local.drizzle.studio](https://local.drizzle.studio/) .
 
 ### Running Zephyr locally
 
 We chose to build Zephyr with yarn, but you can substitute whatever package manager you prefer.
 
-- Run `yarn dev` to fire up a development server.
-  - If you prefer [﻿Vercel CLI](https://vercel.com/docs/cli) as your dev server, use `vercel dev` or `vc dev` instead of `yarn dev` .
-- Go to [﻿http://localhost:3000](http://localhost:3000/) to see Zephyr in action. You should be prompted to sign up.
+Run `yarn dev` to fire up a development server.
+
+- If you prefer [﻿Vercel CLI](https://vercel.com/docs/cli) as your dev server, use `vercel dev` or `vc dev` instead of `yarn dev` .
+
+Go to [﻿http://localhost:3000](http://localhost:3000/) to see Zephyr in action. You should be prompted to sign up.
