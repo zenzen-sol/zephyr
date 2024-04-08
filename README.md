@@ -1,8 +1,7 @@
-<p><a target="_blank" href="https://app.eraser.io/workspace/oRI3IcQibkaiElPYiQDX" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
-
-![zephyr-preview-vertical-dark.png](/.eraser/oRI3IcQibkaiElPYiQDX___knmznxcVUle1acNTsBPNYFQoztI3___0TyjJ56PsmtrAZEZnwo_M.png "zephyr-preview-vertical-dark.png")
+<img width="1280" alt="zephyr-logo" src="https://github.com/zenzen-sol/zephyr/assets/57605723/10940acb-858e-471e-b266-1d7b2300a33a">
 
 #### Zephyr is an opinionated starter kit for web3 frontends.
+
 
 Made with 🖤 in Kyoto, Japan by [﻿Sol Irvine](https://www.zenzen.io/sol)
 
@@ -57,7 +56,9 @@ Zephyr includes an optional data schema that illustrates how to configure and se
 
 This data is used to drive Zephyr's default UI, which provides users with a way to add their on-chain addresses. You may find this useful when building your own web3 app. If not, you are welcome to skip the following steps.
 
-- For your reference, the data schema that we'll be installing is represented in the entity-relationship diagram at the end of this README. [﻿View on canvas](https://app.eraser.io/workspace/oRI3IcQibkaiElPYiQDX?elements=AqBdJp_5XgMUeEa37uVIFQ)
+- For your reference, the data schema that we'll be installing is represented below.
+![zephyr-erd](https://github.com/zenzen-sol/zephyr/assets/57605723/a7dd703b-4d87-4c60-ac5e-07be95cd75a8)
+
 - You can review the code that establishes this schema in `db/schema.ts` . You are welcome to modify it to fit your app's needs.
 - The seed data we'll use to populate the database is in `db/seed-fixtures.ts` . Again, feel free to enhance or modify. If you're looking for additional chains, try the [﻿ethereum-lists/chains](https://github.com/ethereum-lists/chains) project.
 
@@ -76,15 +77,3 @@ We chose to build Zephyr with yarn, but you can substitute whatever package mana
 - Run `yarn dev` to fire up a development server.
   - If you prefer [﻿Vercel CLI](https://vercel.com/docs/cli) as your dev server, use `vercel dev` or `vc dev` instead of `yarn dev` .
 - Go to [﻿http://localhost:3000](http://localhost:3000/) to see Zephyr in action. You should be prompted to sign up.
-
-<!-- eraser-additional-content -->
-
-### Diagrams
-
-<!-- eraser-additional-files -->
-
-<a href="/README-entity-relationship-1.eraserdiagram" data-element-id="g5UqCZTr5Kc3Is-Id_vZp"><img src="/.eraser/oRI3IcQibkaiElPYiQDX___knmznxcVUle1acNTsBPNYFQoztI3___---diagram----07934b1a7e5c81e5b75fc6e7865c6258.png" alt="" data-element-id="g5UqCZTr5Kc3Is-Id_vZp" /></a>
-
-<!-- end-eraser-additional-files -->
-<!-- end-eraser-additional-content -->
-<!--- Eraser file: https://app.eraser.io/workspace/oRI3IcQibkaiElPYiQDX --->
