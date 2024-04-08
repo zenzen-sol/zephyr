@@ -23,8 +23,10 @@ export default async function Home() {
     <>
       <main className="relative mx-auto max-w-5xl">
         <Header />
-        <AddAccountForm />
-        <AccountsList items={_accounts} />
+        <div className="flex w-full flex-col space-x-0 space-y-12 px-4 py-12 md:flex-row md:space-x-12 md:space-y-0">
+          <AddAccountForm />
+          <AccountsList items={_accounts} />
+        </div>
       </main>
     </>
   );

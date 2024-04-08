@@ -1,6 +1,15 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -12,13 +21,6 @@ import {
 } from "@/components/ui/form";
 import { IconLoading } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
-import AwesomeDebouncePromise from "awesome-debounce-promise";
-import { FC } from "react";
-// import { handleApiError } from "@components/toasts/ErrorToast";
-// import { handleSuccess } from "@components/toasts/SuccessToast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "@radix-ui/react-icons";
-// import { createAccount } from "app/server/accounts/createAccount";
 import {
   toValidAddressChecksum,
   validateEVMAddress,
@@ -26,7 +28,11 @@ import {
 } from "@/lib/address";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PlusIcon } from "@radix-ui/react-icons";
+import AwesomeDebouncePromise from "awesome-debounce-promise";
 import { useRouter } from "next/navigation";
+import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -110,109 +116,139 @@ const AddAccountForm: FC = () => {
   return (
     <div
       className={cn(
-        "mx-auto max-w-md py-24",
+        "mx-auto w-full max-w-md space-y-4 text-sm md:w-1/2 md:max-w-none",
         !isLoaded && "pointer-events-none opacity-30",
       )}
     >
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Add an address</FormLabel>
-                <FormControl>
-                  <div className="flex w-full flex-row space-x-4">
-                    <Input
-                      placeholder="0x1234..."
-                      autoComplete="off"
-                      autoCorrect="off"
-                      autoFocus
-                      aria-disabled={!isLoaded}
-                      disabled={!isLoaded}
-                      {...field}
-                    />
-                    {form.formState.errors.address?.message ===
-                      "Invalid checksum" && (
-                      <Button
-                        type="button"
-                        onClick={() => fixChecksum(form.getValues("address"))}
-                      >
-                        Fix checksum
-                      </Button>
-                    )}
-                  </div>
-                </FormControl>
-                {!!fieldState.error ? (
-                  <FormMessage />
-                ) : (
-                  <FormDescription>
-                    {fieldState.isDirty && !fieldState.invalid ? (
-                      <span className="text-success-500">
-                        Valid EVM address
-                      </span>
+      <Card>
+        <CardHeader>
+          <CardTitle>Add a new address</CardTitle>
+          <CardDescription>
+            This simple form illustrates how user input can be saved to the Neon
+            database via Drizzle ORM and react-hook-form.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel>Add an address</FormLabel>
+                    <FormControl>
+                      <div className="flex w-full flex-row space-x-4">
+                        <Input
+                          placeholder="0x1234..."
+                          autoComplete="off"
+                          autoCorrect="off"
+                          autoFocus
+                          aria-disabled={!isLoaded}
+                          disabled={!isLoaded}
+                          {...field}
+                        />
+                        {form.formState.errors.address?.message ===
+                          "Invalid checksum" && (
+                          <Button
+                            type="button"
+                            onClick={() =>
+                              fixChecksum(form.getValues("address"))
+                            }
+                          >
+                            Fix checksum
+                          </Button>
+                        )}
+                      </div>
+                    </FormControl>
+                    {!!fieldState.error ? (
+                      <FormMessage />
                     ) : (
-                      <span>Enter an EVM address</span>
+                      <FormDescription>
+                        {fieldState.isDirty && !fieldState.invalid ? (
+                          <span className="text-success-500">
+                            Valid EVM address
+                          </span>
+                        ) : (
+                          <span>Enter an EVM address</span>
+                        )}
+                      </FormDescription>
                     )}
-                  </FormDescription>
+                  </FormItem>
                 )}
-              </FormItem>
-            )}
-          />
+              />
 
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Name this address</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="EVM Hot Wallet"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    aria-disabled={!isLoaded}
-                    disabled={!isLoaded}
-                    {...field}
-                  />
-                </FormControl>
-                {!!fieldState.error ? (
-                  <FormMessage />
-                ) : (
-                  <FormDescription>
-                    {fieldState.isDirty && !fieldState.invalid ? (
-                      <span className="text-success-500">Valid name</span>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormLabel>Name this address</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="EVM Hot Wallet"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        aria-disabled={!isLoaded}
+                        disabled={!isLoaded}
+                        {...field}
+                      />
+                    </FormControl>
+                    {!!fieldState.error ? (
+                      <FormMessage />
                     ) : (
-                      <span>Please name this address</span>
+                      <FormDescription>
+                        {fieldState.isDirty && !fieldState.invalid ? (
+                          <span className="text-success-500">Valid name</span>
+                        ) : (
+                          <span>Please name this address</span>
+                        )}
+                      </FormDescription>
                     )}
-                  </FormDescription>
+                  </FormItem>
                 )}
-              </FormItem>
-            )}
-          />
+              />
 
-          <Button
-            className="w-full"
-            type="submit"
-            disabled={!form.formState.isValid || form.formState.isSubmitting}
-          >
-            <span className="flex w-full items-center justify-between space-x-2">
-              <span>Save</span>
-              <span>
-                {form.formState.isSubmitting ? (
-                  <IconLoading
-                    className="h-5 w-5 animate-spin-slow stroke-current"
-                    strokeWidth={1.5}
-                  />
-                ) : (
-                  <PlusIcon className="h-5 w-5 stroke-current" />
-                )}
-              </span>
-            </span>
-          </Button>
-        </form>
-      </Form>
+              <Button
+                className="w-full"
+                type="submit"
+                disabled={
+                  !form.formState.isValid || form.formState.isSubmitting
+                }
+              >
+                <span className="flex w-full items-center justify-between space-x-2">
+                  <span>Save</span>
+                  <span>
+                    {form.formState.isSubmitting ? (
+                      <IconLoading
+                        className="h-5 w-5 animate-spin-slow stroke-current"
+                        strokeWidth={1.5}
+                      />
+                    ) : (
+                      <PlusIcon />
+                    )}
+                  </span>
+                </span>
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+        <CardFooter>
+          <div className="text-muted-foreground flex flex-row space-x-4 text-xs">
+            <div>
+              <Badge variant="secondary">Hint</Badge>
+            </div>
+            <div>
+              Try running{" "}
+              <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-xs font-semibold">
+                yarn drizzle:studio
+              </code>
+              and check the <span className="font-semibold">Accounts</span>{" "}
+              table.
+            </div>
+          </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 };
