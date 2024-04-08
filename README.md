@@ -29,13 +29,18 @@ Out of the box, Zephyr:
 
 ### Getting started
 
-- Create an account on [﻿Clerk](https://clerk.com/docs) .
-  - Create a new application on Clerk.
-  - Save a copy of your `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` somewhere secure
-- Create an account on [﻿Neon](https://neon.tech/) .
-  - Create a project on Neon.
-  - Save a copy of the connection string for your new project somewhere secure.
-- [﻿Generate a new repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) from this template.
+Create an account on [﻿Clerk](https://clerk.com/docs) .
+
+- Create a new application on Clerk.
+- Save a copy of your `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` somewhere secure
+
+Create an account on [﻿Neon](https://neon.tech/) .
+
+- Create a project on Neon.
+- Save a copy of the connection string for your new project somewhere secure.
+
+[﻿Generate a new repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) from this template.
+
 - Install dependencies: `yarn install` .
 - Create a file called `.env.development.local` in the project root, and add the following environment variables:
 
@@ -47,7 +52,7 @@ CLERK_SECRET_KEY={Supplied by Clerk}
 DATABASE_URL={Your Postgres database URL from Neon}
 ```
 
-- Change the project name in `package.json` to your project name.
+Change the project name in `package.json` to your project name, and update the `README.md` file to fit your project.
 
 ### Setting up your database
 
