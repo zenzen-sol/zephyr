@@ -16,7 +16,9 @@ Out of the box, Zephyr:
 - Requires a user to submit and verify their username, full name, and email address after signing up.
 - Allows a user to enter any EVM-compatible on-chain accounts. The address is verified in real-time, and any problems with the address are surfaced to the user.
 - Allows a user to save a valid on-chain account to the database.
-- Displays a list of saved on-chain accounts from the database. The functionality above is provided to give developers a useful jumping-off point for their own explorations and enhancements. Zephyr tries to strike the balance between showing real-world examples without being too difficult to modify to your needs.
+- Displays a list of saved on-chain accounts from the database.
+
+The functionality above is provided to give developers a useful jumping-off point for their own explorations and enhancements. Zephyr tries to strike the balance between showing real-world examples without being too difficult to modify to your needs.
 
 ### What's included
 
