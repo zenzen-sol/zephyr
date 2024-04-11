@@ -2,7 +2,8 @@
   "name": "zephyr",
   "description": "An opinionated web3 starter from Zenzen Labs. https://zenzen.io",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
