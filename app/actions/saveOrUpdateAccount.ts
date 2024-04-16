@@ -1,15 +1,19 @@
 "use server";
 
 import { database } from "@/lib/database";
+import { auth } from "@clerk/nextjs";
 import { accounts, accountsToChains, chains } from "db/schema";
 import { eq } from "drizzle-orm";
 
 export const saveOrUpdateAccount = async (values: {
   address: string;
   name: string;
-  userId: string;
 }) => {
   const db = await database();
+  const { userId } = auth();
+  if (!userId) {
+    throw new Error("User not found.");
+  }
   const _chains = await db
     .select()
     .from(chains)
@@ -23,14 +27,14 @@ export const saveOrUpdateAccount = async (values: {
     .values({
       name: values.name,
       address: values.address,
-      userId: values.userId,
+      userId: userId,
     })
     .onConflictDoUpdate({
       target: accounts.address,
       set: {
         address: values.address,
         name: values.name,
-        userId: values.userId,
+        userId: userId,
       },
     })
     .returning();
