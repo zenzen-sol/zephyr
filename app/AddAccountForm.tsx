@@ -65,7 +65,7 @@ const FormSchema = z.object({
 
 const AddAccountForm: FC = () => {
   const router = useRouter();
-  const { isLoaded, userId } = useAuth();
+  const { isLoaded } = useAuth();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     mode: "onChange",
@@ -78,20 +78,7 @@ const AddAccountForm: FC = () => {
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
-      if (!userId) {
-        throw new Error("User not found.");
-      }
-
-      const valuesWithUserId: {
-        address: string;
-        name: string;
-        userId: string;
-      } = {
-        ...values,
-        userId: userId,
-      };
-
-      saveOrUpdateAccount(valuesWithUserId);
+      saveOrUpdateAccount(values);
       toast.success("Address has been created");
       form.reset();
       router.refresh();
